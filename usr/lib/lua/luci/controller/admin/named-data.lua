@@ -7,6 +7,11 @@ function index()
   page.order  = 80
   page.index  = true
 
+  page = node("admin", "named-data", "strategy")
+  page.target = cbi("named-data/strategy")
+  page.title = _("Strategy Choice")
+  page.order = 50
+
   page = node("admin", "named-data", "ndnping")
   page.target = template("named-data/ndnping")
   page.title  = _("ndnping")
