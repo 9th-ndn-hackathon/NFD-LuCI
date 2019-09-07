@@ -1,0 +1,66 @@
+<%+header%>
+
+<%
+local ndnping_target = "/ndn/edu/arizona"
+%>
+
+<script type="text/javascript">//<![CDATA[
+var stxhr = new XHR();
+
+function update_status(field) {
+  var tool = field.name;
+  var addr = field.value;
+
+  var legend = document.getElementById('diag-rc-legend');
+  var output = document.getElementById('diag-rc-output');
+
+  if (!legend || !output) {
+    return;
+  }
+
+  output.innerHTML =
+    '<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
+    '<%:Waiting for command to complete...%>';
+
+  legend.parentNode.style.display = 'block';
+  legend.style.display = 'inline';
+
+  stxhr.post('<%=url('admin/named-data')%>/diag_' + tool + '/?q=' + escape(addr), { token: '<%=token%>' },
+    function(x) {
+      if (x.responseText) {
+        legend.style.display = 'none';
+        output.innerHTML = String.format('<pre>%h</pre>', x.responseText);
+      } else {
+        legend.style.display = 'none';
+        output.innerHTML = '<span class="error"><%:Bad address specified!%></span>';
+      }
+    }
+  );
+}
+//]]></script>
+
+<form method="post" action="<%=url('admin/named-data/ndnping')%>">
+  <div class="cbi-map">
+    <h2 name="content"><%:Diagnostics%></h2>
+
+    <div class="cbi-section">
+      <legend><%:Network Utilities%></legend>
+
+      <div class="table">
+        <div class="tr">
+          <div class="td left">
+            <input style="margin: 5px 0" type="text" value="<%=ndnping_target%>" name="ndnping" /><br />
+            <input type="button" value="<%:ndnping%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.ndnping)" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cbi-section" style="display:none">
+    <strong id="diag-rc-legend"></strong>
+    <span id="diag-rc-output"></span>
+  </div>
+</form>
+
+<%+footer%>
