@@ -22,6 +22,11 @@ function index()
   page.title = _("General Settings")
   page.order = 10
 
+  page = entry({"admin", "named-data", "nfd-config", "face"})
+  page.target = cbi("named-data/face")
+  page.title = _("Saved Faces")
+  page.order = 40
+  
   page = entry({"admin", "named-data", "nfd-config", "strategy"})
   page.target = cbi("named-data/strategy")
   page.title = _("Strategy Choice")
