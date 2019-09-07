@@ -16,4 +16,15 @@ policy.default = "lru"
 policy.widget = "select"
 policy.size = 1
 
+s = m:section(NamedSection, "face_system", "face_system", translate("Face System"))
+s.anonymous = true
+s.addremove = false
+
+s:option(Flag, "ether_listen", translate("Ethernet unicast"))
+s:option(Flag, "ether_mcast", translate("Ethernet multicast"))
+s:option(Flag, "udp_listen", translate("UDP unicast"))
+s:option(Flag, "udp_mcast", translate("UDP multicast"))
+s:option(Flag, "tcp_listen", translate("TCP listener"))
+s:option(Flag, "ws_listen", translate("WebSocket listener"))
+
 return m
