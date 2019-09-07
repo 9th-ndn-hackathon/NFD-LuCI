@@ -42,6 +42,19 @@ if util then
   </div>
 </div>
 
+<div class="cbi-section-node">
+  <form class="cbi-form" action="<%=url('admin/named-data/add-face-temp')%>" method="post">
+    <p>
+      <label for="addr">Address</label>
+      <input class="cbi-input-text" type="text" name="addr" id="addr" required/>
+      <input type="hidden" name="token" id="token" value="<%=token%>"/>
+    </p>
+    <p>
+      <input class="cbi-button cbi-button-save" type="submit" value="Create"/>
+    </p>
+  </form>
+</div>
+
 <%-
 end
 -%>

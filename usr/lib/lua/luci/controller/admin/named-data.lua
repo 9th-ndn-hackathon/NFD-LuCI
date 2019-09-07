@@ -34,6 +34,9 @@ function index()
 
   page = entry({"admin", "named-data", "diag_ndnping"}, post("diag_ndnping"), nil)
   page.leaf = true
+
+  page = entry({"admin", "named-data", "add-face-temp"}, post("add_face_temp"), nil)
+  page.leaf = true
 end
 
 function diag_ndnping(cmd)
@@ -52,3 +55,11 @@ function diag_ndnping(cmd)
     util:close()
   end
 end
+
+function add_face_temp(cmd)
+  local addr = luci.http.formvalue("addr")
+  local util = io.popen("/etc/init.d/nfd connect %s" % luci.util.shellquote(addr))
+
+  luci.http.redirect('face-list')
+end
+
