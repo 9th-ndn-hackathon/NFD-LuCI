@@ -1,0 +1,50 @@
+<%+header%>
+
+<%-
+local util = io.popen("nfdc face list")
+if util then
+  local idx = 0
+-%>
+
+<h4>Face List</h4>
+<div class="cbi-section-node">
+  <div class="table" style="font-size: 90%;">
+    <div class="tr table-titles cbi-rowstyle-2">
+      <div class="th hide-xs">Face ID</div>
+      <div class="th nowrap">URI</div>
+    </div>
+
+    <%-
+    while true do
+      local ln = util:read("*l")
+      if not ln then break end
+      idx = idx + 1
+
+      local style = ""
+      if idx % 2 == 0 then
+        style = "cbi-rowstyle-2"
+      else
+        style = "cbi-rowstyle-1"
+      end
+
+      local face_id = string.match(ln, "faceid=(%d+)")
+      local uri = string.match(ln, "remote=([^%s]+)")
+    -%>
+    <div class="tr <%=style%>">
+      <div class="td" data-title="Face ID"><%=face_id%></div>
+      <div class="td nowrap" data-title="URI">
+        <%=uri%>
+      </div>
+    </div>
+    <%-
+    end
+    -%>
+  </div>
+</div>
+
+<%-
+end
+-%>
+
+<%+footer%>
+
