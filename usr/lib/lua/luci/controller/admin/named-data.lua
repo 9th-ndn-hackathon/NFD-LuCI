@@ -12,7 +12,17 @@ function index()
   page.title  = _("Face List")
   page.order  = 40
 
-  page = node("admin", "named-data", "strategy")
+  page = entry({"admin", "named-data", "nfd-config"})
+  page.target = firstchild()
+  page.title = _("NFD Configuration")
+  page.order = 50
+
+  page = entry({"admin", "named-data", "nfd-config", "general"})
+  page.target = cbi("named-data/general")
+  page.title = _("General Settings")
+  page.order = 10
+
+  page = entry({"admin", "named-data", "nfd-config", "strategy"})
   page.target = cbi("named-data/strategy")
   page.title = _("Strategy Choice")
   page.order = 50

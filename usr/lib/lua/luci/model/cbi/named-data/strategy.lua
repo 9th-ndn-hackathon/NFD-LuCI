@@ -1,6 +1,7 @@
-m = Map("nfd", translate("Strategy Choices"))
+m = Map("nfd", translate("NFD - Strategy Choices"),
+        translate("Choose a forwarding strategy for each namespace."))
 
-s = m:section(TypedSection, "strategy", translate("Strategy Choice"))
+s = m:section(TypedSection, "strategy", translate("Strategy Choices"))
 s.addremove = true
 s.anonymous = true
 s.template = "cbi/tblsection"
