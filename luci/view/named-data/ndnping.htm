@@ -7,10 +7,7 @@ local ndnping_target = "/ndn/edu/arizona"
 <script type="text/javascript">//<![CDATA[
 var stxhr = new XHR();
 
-function update_status(field) {
-  var tool = field.name;
-  var addr = field.value;
-
+function update_status(addr) {
   var legend = document.getElementById('diag-rc-legend');
   var output = document.getElementById('diag-rc-output');
 
@@ -25,21 +22,21 @@ function update_status(field) {
   legend.parentNode.style.display = 'block';
   legend.style.display = 'inline';
 
-  stxhr.post('<%=url('admin/named-data')%>/diag_' + tool + '/?q=' + escape(addr), { token: '<%=token%>' },
+  stxhr.post('<%=url('admin/network/nfd/diag_ndnping')%>/?q=' + escape(addr), { token: '<%=token%>' },
     function(x) {
       if (x.responseText) {
         legend.style.display = 'none';
         output.innerHTML = String.format('<pre>%h</pre>', x.responseText);
       } else {
         legend.style.display = 'none';
-        output.innerHTML = '<span class="error"><%:Bad address specified!%></span>';
+        output.innerHTML = '<span class="error"><%:ndnping failed%></span>';
       }
     }
   );
 }
 //]]></script>
 
-<form method="post" action="<%=url('admin/named-data/ndnping')%>">
+<form method="post" action="<%=url('admin/network/nfd/diag_ndnping')%>">
   <div class="cbi-map">
     <h2 name="content"><%:Diagnostics%></h2>
 
@@ -50,7 +47,7 @@ function update_status(field) {
         <div class="tr">
           <div class="td left">
             <input style="margin: 5px 0" type="text" value="<%=ndnping_target%>" name="ndnping" /><br />
-            <input type="button" value="<%:ndnping%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.ndnping)" />
+            <input type="button" value="<%:ndnping%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.ndnping.value)" />
           </div>
         </div>
       </div>
