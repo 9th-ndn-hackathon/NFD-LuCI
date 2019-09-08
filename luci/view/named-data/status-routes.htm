@@ -1,0 +1,101 @@
+<%+header%>
+
+<%-
+local util = io.popen("nfdc route list")
+if util then
+  local face_to_routes = {}
+  local sorted_faces = {}
+  local face_inserted = {}
+  while true do
+    local ln = util:read("*l")
+    if not ln then break end
+
+    local cur = {}
+    local nexthop = string.match(ln, "nexthop=([^%s]+)")
+
+    cur.prefix = string.match(ln, "prefix=([^%s]+)")
+    cur.origin = string.match(ln, "origin=([^%s]+)")
+    cur.cost = string.match(ln, "cost=(%d+)")
+    cur.flags = string.match(ln, "flags=([^%s]+)")
+    cur.expires = string.match(ln, "expires=([^%s]+)")
+
+    if face_to_routes[nexthop] ~= nil then
+      table.insert(face_to_routes[nexthop], cur)
+    else
+      face_to_routes[nexthop] = {cur}
+    end
+
+    if not face_inserted[nexthop] then
+      table.insert(sorted_faces, nexthop)
+      face_inserted[nexthop] = true
+    end
+  end
+  table.sort(sorted_faces)
+
+  local faces = {}
+  util = io.popen("nfdc face list")
+  while true do
+    local ln = util:read("*l")
+    if not ln then break end
+    local face_id = string.match(ln, "faceid=(%d+)")
+    local uri = string.match(ln, "remote=([^%s]+)")
+    faces[face_id] = uri
+  end
+-%>
+
+<h4>Route List</h4>
+<div class="cbi-section-node">
+  <div class="table" style="font-size: 90%;">
+    <div class="tr table-titles cbi-rowstyle-2">
+      <div class="th hide-xs">Face ID</div>
+      <div class="th nowrap">Remote URI</div>
+      <div class="th nowrap">Route Prefix</div>
+      <div class="th hide-xs">Origin</div>
+      <div class="th hide-xs">Cost</div>
+      <div class="th hide-xs">Flags</div>
+      <div class="th hide-xs">Expires</div>
+    </div>
+
+    <%-
+    local counter = 0
+    for _, nexthop in ipairs(sorted_faces) do
+      routes = face_to_routes[nexthop]
+      local first_time = true
+      for _, cur in pairs(routes) do
+        local style = counter % 2 + 1
+    -%>
+    <div class="tr cbi-rowstyle-<%=style%>">
+      <%-
+        if first_time then
+      -%>
+      <div class="td" data-title="Face ID"><%=nexthop%></div>
+      <div class="td" data-title="Remote URI"><%=faces[nexthop]%></div>
+      <%-
+          first_time = false
+        else
+      -%>
+      <div class="td" data-title="Face ID"> </div>
+      <div class="td" data-title="Remote URI"> </div>
+      <%-
+        end
+      -%>
+      <div class="td nowrap" data-title="Route Prefix"><%=cur.prefix%></div>
+      <div class="td nowrap" data-title="Origin"><%=cur.origin%></div>
+      <div class="td nowrap" data-title="Cost"><%=cur.cost%></div>
+      <div class="td nowrap" data-title="Flags"><%=cur.flags%></div>
+      <div class="td nowrap" data-title="Expires"><%=cur.expires%></div>
+    </div>
+    <%-
+        counter = counter + 1
+      end
+    end
+    -%>
+  </div>
+</div>
+
+<%-
+end
+-%>
+
+<%+footer%>
+
