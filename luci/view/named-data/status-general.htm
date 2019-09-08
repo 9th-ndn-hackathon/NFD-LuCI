@@ -1,0 +1,16 @@
+<%-
+  require "luci.sys"
+  local nfdc_status_output = luci.sys.exec("nfdc status")
+-%>
+
+<%+header%>
+
+<h4>Global Counters</h4>
+
+<pre><%=nfdc_status_output%></pre>
+
+<h4>NFD Status Page</h4>
+
+<a class="cbi-button cbi-button-action important" href="/cgi-bin/nfd-status" target="_blank">NFD Status</a>
+
+<%+footer%>
