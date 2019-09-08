@@ -1,4 +1,5 @@
 module("luci.controller.named-data.status", package.seeall)
+require "luci.json"
 
 function index()
   page = node("admin", "status", "named-data")
@@ -12,7 +13,7 @@ function index()
   page.title  = _("NFD Status")
   page.order  = 10
 
-  page = entry({"admin", "named-data", "displayCountersNDN"}, post("displayCountersNDN"), nil)
+  page = entry({"admin", "status", "named-data", "displayCountersNDN"}, post("displayCountersNDN"), nil)
   page.leaf = true
 
   page = node("admin", "status", "named-data", "faces")
@@ -25,7 +26,7 @@ function index()
   page.title  = _("Routes")
   page.order  = 30
 
-  
+
   page = entry({"admin", "status", "named-data", "create_face"}, post("create_face"), nil)
   page.leaf = true
 end
@@ -53,7 +54,7 @@ function displayCountersNDN(cmd)
       if (#(splitline) > 1) then
       mapper[tostring(splitline[1])] = tostring(splitline[2])
 
-    end 
+    end
 
       if not ln then break end
     end
