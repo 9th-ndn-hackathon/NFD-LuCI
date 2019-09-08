@@ -7,7 +7,54 @@
 
 <h2>Global Counters</h2>
 
-<pre><%=nfdc_status_output%></pre>
+
+
+
+<script type="text/javascript">//<![CDATA[
+var stxhr = new XHR();
+function update_status() {
+  stxhr.post('<%=url('admin/status/named-data')%>/displayCountersNDN', { token: '<%=token%>' },
+    function(x) {
+      if (!x.responseText) {
+        return;
+      }
+
+      var desiredobj = ["nFibEntries", "nPitEntries", "nMeasurementEntries", "nCsEntries", "nInInterests", "nOutInterests", "nInData", "nOutData", "nInNacks","nOutNacks", "nSatisfiedInterests","nUnsatisfiedInterests"];
+      var tableJSON = JSON.parse(x.responseText);
+      for (var j = 0; j < desiredobj.length; j++){
+        var key = desiredobj[j];
+        var s = document.getElementById(key);
+        s.innerHTML = tableJSON[key] || "0";
+      }
+    }
+  );
+}
+
+function fake_update_status(){
+  setInterval(update_status, 5000)
+}
+fake_update_status();
+//]]></script>
+
+<div class="cbi-section">
+	<h3>System</h3>
+
+	<div class="table" width="100%">
+		<div class="tr"><div class="td left" width="33%">nFibEntries</div><div class="td left" id="nFibEntries">-</div></div>
+		<div class="tr"><div class="td left" width="33%">nPitEntries</div><div class="td left" id="nPitEntries" >-</div></div>
+		<div class="tr"><div class="td left" width="33%">nMeasurementEntries</div><div class="td left" id="nMeasurementEntries">-</div></div>
+		<div class="tr"><div class="td left" width="33%">nCsEntries</div><div class="td left" id="nCsEntries">-</div></div>
+		<div class="tr"><div class="td left" width="33%"> nInInterests</div><div class="td left" id="nInInterests">-</div></div>
+		<div class="tr"><div class="td left" width="33%">nOutInterests</div><div class="td left" id="nOutInterests">-</div></div>
+		<div class="tr"><div class="td left" width="33%">nInData</div><div class="td left" id="nInData">-</div></div>
+        <div class="tr"><div class="td left" width="33%">nOutData</div><div class="td left" id="nOutData">-</div></div>
+        <div class="tr"><div class="td left" width="33%">nInNacks</div><div class="td left" id="nInNacks">-</div></div>
+        <div class="tr"><div class="td left" width="33%">nOutNacks</div><div class="td left" id="nOutNacks">-</div></div>
+        <div class="tr"><div class="td left" width="33%">nSatisfiedInterests</div><div class="td left" id="nSatisfiedInterests">-</div></div>
+        <div class="tr"><div class="td left" width="33%">nUnsatisfiedInterests</div><div class="td left" id="nUnsatisfiedInterests">-</div></div>
+        
+	</div>
+</div>
 
 <h2>NFD Status Page</h2>
 
