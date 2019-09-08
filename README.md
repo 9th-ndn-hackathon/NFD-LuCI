@@ -8,5 +8,6 @@ Team Members:
 
 Usage:
 
-1. Copy files in this repository to the corresponding paths on OpenWrt router.
+1. Copy files `./luci` to `/usr/lib/lua/luci` on OpenWrt router.
+   Example: `bash upload.sh 192.168.1.1`
 2. Access LuCI via browser.
