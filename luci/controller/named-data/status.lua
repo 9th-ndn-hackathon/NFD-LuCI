@@ -14,12 +14,12 @@ function index()
 
   page = node("admin", "status", "named-data", "faces")
   page.target = template("named-data/status-faces")
-  page.title  = _("Faces and Routes")
+  page.title  = _("Faces")
   page.order  = 20
 
   page = node("admin", "status", "named-data", "routes")
   page.target = template("named-data/status-routes")
-  page.title  = _("NFD Routes")
+  page.title  = _("Routes")
   page.order  = 30
 
   page = entry({"admin", "status", "named-data", "create_face"}, post("create_face"), nil)

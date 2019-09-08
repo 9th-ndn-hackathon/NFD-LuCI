@@ -6,12 +6,18 @@ if util then
   local idx = 0
 -%>
 
+<h4>Face List</h4>
 <div class="cbi-section-node">
   <div class="table" style="font-size: 90%;">
     <div class="tr table-titles cbi-rowstyle-2">
       <div class="th hide-xs">Face ID</div>
       <div class="th nowrap">URI</div>
-      <div class="th nowrap">Routes</div>
+      <div class="th hide-xs">RxInterest</div>
+      <div class="th hide-xs">RxData</div>
+      <div class="th hide-xs">RxNack</div>
+      <div class="th hide-xs">TxInterest</div>
+      <div class="th hide-xs">TxData</div>
+      <div class="th hide-xs">TxNack</div>
     </div>
 
     <%-
@@ -29,26 +35,21 @@ if util then
 
       local face_id = string.match(ln, "faceid=(%d+)")
       local uri = string.match(ln, "remote=([^%s]+)")
-
-      local routes = ""
-      local routes_util = io.popen("nfdc route list nexthop " .. face_id)
-      if routes_util then
-        while true do
-          local routes_ln = routes_util:read("*l")
-          if not routes_ln then break end
-          routes = routes .. string.match(routes_ln, "prefix=([^ ]*)") .. "<br>"
-        end
-      end
-      routes_util:close()
+      local rx_counter, tx_counter = string.match(ln, "counters={in={(.+)} out={(.+)}}")
+      local rx_i, rx_d, rx_n = string.match(rx_counter, "(%d+)i (%d+)d (%d+)n")
+      local tx_i, tx_d, tx_n = string.match(tx_counter, "(%d+)i (%d+)d (%d+)n")
     -%>
     <div class="tr <%=style%>">
       <div class="td" data-title="Face ID"><%=face_id%></div>
       <div class="td nowrap" data-title="URI">
         <%=uri%>
       </div>
-      <div class="td nowrap" data-title="Routes">
-        <%=routes%>
-      </div>
+      <div class="th hide-xs" data-title="RxInterest"><%=rx_i%></div>
+      <div class="th hide-xs" data-title="RxData"><%=rx_d%></div>
+      <div class="th hide-xs" data-title="RxNack"><%=rx_n%></div>
+      <div class="th hide-xs" data-title="TxInterest"><%=tx_i%></div>
+      <div class="th hide-xs" data-title="TxData"><%=tx_d%></div>
+      <div class="th hide-xs" data-title="TxNack"><%=tx_n%></div>
     </div>
     <%-
     end
