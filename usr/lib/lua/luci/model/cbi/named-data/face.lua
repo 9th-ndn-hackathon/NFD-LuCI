@@ -1,22 +1,20 @@
-m = Map("nfd", translate("NFD - Saved Faces"),
-        translate("Write down faces that are stored and automatically created."))
+m = Map("nfd", translate("NFD - Permanent Faces"),
+        translate("These faces and routes are created when NFD service starts."))
 
-s = m:section(TypedSection, "face", translate("Saved Face"))
+s = m:section(TypedSection, "face", translate("Regular Faces"))
 s.addremove = true
 s.anonymous = true
 s.template = "cbi/tblsection"
-
 function s.filter(self, section)
   return self.map:get(section, "use_autoconfig") ~= "1"
 end
 
-remote_uri = s:option(Value, "remote", translate("Prefix"))
-remote_uri.datatype = "string"
-remote_uri.rmempty  = true
+remote = s:option(Value, "remote", translate("Prefix"))
+remote.datatype = "string"
+remote.rmempty  = true
 
-routes = s:option(DynamicList, "route", translate("Routes"))
-routes.datatype = "string"
-routes.rmempty  = true
+route = s:option(DynamicList, "route", translate("Routes"))
+route.datatype = "string"
+route.rmempty  = true
 
 return m
-

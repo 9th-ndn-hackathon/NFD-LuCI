@@ -1,5 +1,4 @@
-m = Map("nfd", translate("NFD - General Settings"),
-        translate("Enter general NFD settings."))
+m = Map("nfd", translate("NFD - General Settings"))
 
 s = m:section(NamedSection, "cs", "cs", translate("Content Store"))
 s.anonymous = true

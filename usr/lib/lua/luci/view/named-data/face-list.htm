@@ -42,10 +42,15 @@ if util then
   </div>
 </div>
 
+<%-
+end
+-%>
+
+<h4>Create Face</h4>
 <div class="cbi-section-node">
   <form class="cbi-form" action="<%=url('admin/named-data/add-face-temp')%>" method="post">
     <p>
-      <label for="addr">Address</label>
+      <label for="addr">URI</label>
       <input class="cbi-input-text" type="text" name="addr" id="addr" required/>
       <input type="hidden" name="token" id="token" value="<%=token%>"/>
     </p>
@@ -54,10 +59,6 @@ if util then
     </p>
   </form>
 </div>
-
-<%-
-end
--%>
 
 <%+footer%>
 

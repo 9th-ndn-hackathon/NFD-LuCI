@@ -10,7 +10,7 @@ function index()
   page = node("admin", "named-data", "face-list")
   page.target = template("named-data/face-list")
   page.title  = _("Face List")
-  page.order  = 40
+  page.order  = 20
 
   page = entry({"admin", "named-data", "nfd-config"})
   page.target = firstchild()
@@ -24,9 +24,9 @@ function index()
 
   page = entry({"admin", "named-data", "nfd-config", "face"})
   page.target = cbi("named-data/face")
-  page.title = _("Saved Faces")
+  page.title = _("Permanent Faces")
   page.order = 40
-  
+
   page = entry({"admin", "named-data", "nfd-config", "strategy"})
   page.target = cbi("named-data/strategy")
   page.title = _("Strategy Choice")

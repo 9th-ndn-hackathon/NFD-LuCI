@@ -1,5 +1,5 @@
 m = Map("nfd", translate("NFD - Strategy Choices"),
-        translate("Choose a forwarding strategy for each namespace."))
+        translate("These forwarding strategy choices are applied when NFD service starts."))
 
 s = m:section(TypedSection, "strategy", translate("Strategy Choices"))
 s.addremove = true
