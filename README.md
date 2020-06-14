@@ -14,4 +14,6 @@ Usage:
    Example: `bash upload.sh 192.168.1.1`
 4. Access LuCI via browser.
 
+To build IPK packages, use [yoursunny OpenWrt Packages](https://github.com/yoursunny/OpenWrt-packages) feed.
+
 Presentation: [NFD on OpenWrt Home Router](https://www.slideshare.net/yoursunny/nfd-luci)
