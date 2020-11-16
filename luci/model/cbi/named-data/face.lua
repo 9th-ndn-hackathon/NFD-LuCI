@@ -9,7 +9,7 @@ function s.filter(self, section)
   return self.map:get(section, "use_autoconfig") ~= "1"
 end
 
-remote = s:option(Value, "remote", translate("Prefix"))
+remote = s:option(Value, "remote", translate("Remote"))
 remote.datatype = "string"
 remote.rmempty  = true
 
